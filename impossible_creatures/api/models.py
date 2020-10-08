@@ -12,8 +12,8 @@ class User(models.Model):
 
 class Species(models.Model):
     name = models.CharField(max_length=40, null=False, unique=True, default=None)
-    parent1 = models.ForeignKey("self", related_name="species_parent1", null=False, on_delete=models.DO_NOTHING)
-    parent2 = models.ForeignKey("self", related_name="species_parent2", null=False, on_delete=models.DO_NOTHING)
+    parent1 = models.ForeignKey("self", related_name="species_parent1", on_delete=models.DO_NOTHING, null=True)
+    parent2 = models.ForeignKey("self", related_name="species_parent2", on_delete=models.DO_NOTHING, null=True)
     creator = models.ForeignKey(User, null=False, default=1, on_delete=models.SET_DEFAULT)
     creation_date = models.DateTimeField(auto_now_add=True)
 

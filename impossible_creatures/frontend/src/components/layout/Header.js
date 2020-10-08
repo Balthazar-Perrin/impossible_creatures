@@ -3,7 +3,7 @@ import React, { Component } from "react";
 export class Header extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-sm navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
         <a className="navbar-brand" href="#">
           Impossible Creatures
         </a>
@@ -21,8 +21,8 @@ export class Header extends Component {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li className="nav-item">
+              <a className="nav-link" href="accounts/login">
                 Login
               </a>
             </li>
