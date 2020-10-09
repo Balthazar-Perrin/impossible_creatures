@@ -1,55 +1,58 @@
-import React, { Component } from "react";
-import { Link } from "react-router";
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getAnimals, deleteAnimal } from "../../actions/animals";
 
 export class Animals extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-      loaded: false,
-      placeholder: "Loading",
-    };
-  }
+  static propTypes = {
+    animals: PropTypes.array.isRequired,
+    getAnimals: PropTypes.func.isRequired,
+    deleteAnimal: PropTypes.func.isRequired,
+  };
 
   componentDidMount() {
-    fetch("api/animal")
-      .then((response) => {
-        if (response.status > 400) {
-          return this.setState(() => {
-            return { placeholder: "Something went wrong!" };
-          });
-        }
-        return response.json();
-      })
-      .then((data) => {
-        this.setState(() => {
-          return {
-            data,
-            loaded: true,
-          };
-        });
-      });
+    this.props.getAnimals();
   }
-
   render() {
     return (
-      <div>
-        <h1>Animals list</h1>
-        {this.state.data.map((animal) => {
-          return (
-            <ul className="list-group ">
-              <li className="list-group-item" key={animal.id}>
-                {animal.name}
-                <br />({animal.species_name})
-                <br /> -- Owned By {animal.owner_name}
-                <br /> -- Created by {animal.creator_name}
-              </li>
-            </ul>
-          );
-        })}
-      </div>
+      <Fragment>
+        <h2>Animals</h2>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Species</th>
+              <th>Owner</th>
+              <th>Creator</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.animals.map((animal) => (
+              <tr key={animal.id}>
+                <td>{animal.name}</td>
+                <td>{animal.species_name}</td>
+                <td>{animal.owner_name}</td>
+                <td>{animal.creator_name}</td>
+                <td>
+                  <button
+                    onClick={this.props.deleteAnimal.bind(this, animal.id)}
+                    className="btn btn-info btn-sm"
+                  >
+                    Details
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Fragment>
     );
   }
 }
 
-export default Animals;
+const mapStateToProps = (state) => ({
+  animals: state.animalsReducer.animals,
+});
+
+export default connect(mapStateToProps, { getAnimals, deleteAnimal })(Animals);

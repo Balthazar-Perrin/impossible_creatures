@@ -6,23 +6,20 @@ import Header from "./layout/Header";
 import Animals from "./animals/Animals";
 import AnimalDetails from "./animals/AnimalDetails";
 
+import { Provider } from "react-redux";
+import store from "../store";
+
 class App extends Component {
   render() {
     return (
-      <Fragment>
-        <div className="container">
-          <Router>
-            <Header />
-            <Switch>
-              <Route path="/" exact component={() => <Animals />} />
-              <Route
-                path="/animal/:animalId"
-                component={() => <AnimalDetails />}
-              />
-            </Switch>
-          </Router>
-        </div>
-      </Fragment>
+      <Provider store={store}>
+        <Fragment>
+          <Header />
+          <div className="container">
+            <Animals />
+          </div>
+        </Fragment>
+      </Provider>
     );
   }
 }
