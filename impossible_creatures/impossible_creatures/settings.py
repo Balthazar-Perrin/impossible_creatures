@@ -59,7 +59,7 @@ ROOT_URLCONF = 'impossible_creatures.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(BASE_DIR.joinpath('templates'))],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'impossible_creatures',
         'USER': 'root',
         'PASSWORD': '',
-        'PORT':'3308',
+        'PORT':'3306',
         'HOST': 'localhost'
     }
 }
@@ -127,5 +127,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-LOGIN_REDIRECT_URL = '/'

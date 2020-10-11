@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .serializers import UserSerializer, SpeciesSerializer, AnimalSerializer, TransactionSerializer
-from .models import User, Species, Animal, Transaction
+from ..serializers import UserSerializer, SpeciesSerializer, AnimalSerializer, TransactionSerializer
+from ..models import User, Species, Animal, Transaction
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
