@@ -15,9 +15,14 @@ export class Header extends Component {
 
     const authLinks = (
       <div>
-        
+
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item ml-2">
+          <li className="nav-item mr-3">
+            <Link to="/species" className="nav-link">
+              Species
+            </Link>
+          </li>
+          <li className="nav-item mr-3">
             <Link to="/fusion" className="nav-link">
               Fusion
             </Link>
@@ -30,7 +35,7 @@ export class Header extends Component {
               Logout
             </button>
           </li>
-          
+
         </ul>
       </div>
 

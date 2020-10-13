@@ -10,6 +10,8 @@ import Animals from "./animals/Animals";
 import Shop from "./animals/Shop";
 import Fusion from "./animals/Fusion";
 
+import Species from "./animals/Species";
+
 import Alerts from "./layout/Alerts";
 
 import Login from "./accounts/Login";
@@ -49,6 +51,7 @@ class App extends Component {
                   <PrivateRoute exact path="/" component={Animals} />
                   <PrivateRoute exact path="/fusion" component={Fusion} />
                   <PrivateRoute exact path="/shop" component={Shop} />
+                  <PrivateRoute exact path="/species" component={Species} />
                   <Route exact path="/register" component={Register} />
                   <Route exact path="/login" component={Login} />
                 </Switch>

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getAnimals, deleteAnimal } from "../../actions/animals";
+import { getAnimals, deleteAnimal, sellAnimal } from "../../actions/animals";
 
 export class Animals extends Component {
   static propTypes = {
@@ -29,7 +29,7 @@ export class Animals extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.animals.map((animal) => (
+            {this.props.animals.map((animal) => ( // itère sur chaque animal
               <tr key={animal.id}>
                 <td>{animal.name}</td>
                 <td>{animal.species}</td>
@@ -37,10 +37,10 @@ export class Animals extends Component {
                 <td>{animal.creator}</td>
                 <td>
                   <button
-                    onClick={this.props.deleteAnimal.bind(this, animal.id)}
+                    onClick={this.props.sellAnimal.bind(this, animal.id)}
                     className="btn btn-info btn-sm"
                   >
-                    Details
+                    Sell
                   </button>
                 </td>
               </tr>
@@ -57,4 +57,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getAnimals, deleteAnimal })(Animals);
+export default connect(mapStateToProps, { getAnimals, deleteAnimal, sellAnimal })(Animals);

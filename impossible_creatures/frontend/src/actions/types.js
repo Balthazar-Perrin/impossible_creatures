@@ -14,3 +14,5 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const CLEAR_LEADS = 'CLEAR_LEADS';
 export const GET_TRANSACTIONS = 'GET_TRANSACTIONS';
 export const FUSE_ANIMALS = 'FUSE_ANIMALS';
+export const SELL_ANIMAL = 'SELL_ANIMAL';
+export const GET_SPECIES = "GET_SPECIES";

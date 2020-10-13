@@ -19,13 +19,14 @@ class Fusion(viewsets.ViewSet):
 		animalPar2 = Animal.objects.get(id=request.data['animal2_id'])
 		speciesParent2 = Species.objects.get(id=AnimalSerializer(animalPar2).data.get('species_id'))
 
-		owner = User.objects.get(id="10")
+		owner = request.user
 		try:
 			newSpecies = Species.objects.get(parent1_id=AnimalSerializer(animalPar1).data.get('species_id'), parent2_id=AnimalSerializer(animalPar2).data.get('species_id'))
 			
 			newDict = {}
 			newDict['name'] = request.data['nameAnimal']
 			newDict['species_id'] = SpeciesSerializer(newSpecies).data.get('id')
+			newDict['owner_id'] = UserSerializer(owner).data.get('id')
 			animalSerializer = AnimalSerializer(data=newDict)
 			if animalSerializer.is_valid():
 				animalSerializer.save()
