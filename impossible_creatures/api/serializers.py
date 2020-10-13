@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 class SpeciesSerializer(serializers.ModelSerializer):
     parent1= serializers.CharField(source='parent1_id.name', read_only=True)
     parent2 = serializers.CharField(source='parent2_id.name', read_only=True)
-    creator = serializers.CharField(source='creator_id.name', read_only=True)
+    creator = serializers.CharField(source='creator_id.username', read_only=True)
 
     class Meta:
         model = Species
@@ -18,16 +18,16 @@ class SpeciesSerializer(serializers.ModelSerializer):
 
 class AnimalSerializer(serializers.ModelSerializer):
     species = serializers.CharField(source='species_id.name', read_only=True)
-    owner = serializers.CharField(source='owner_id.name', read_only=True)
-    creator = serializers.CharField(source='creator_id.name', read_only=True)
+    owner = serializers.CharField(source='owner_id.username', read_only=True)
+    creator = serializers.CharField(source='creator_id.username', read_only=True)
     class Meta:
         model = Animal
         fields = ('id', 'name', 'creation_date', 'creator_id', 'owner_id', 'species_id', 'species', 'owner', 'creator')
 
 class TransactionSerializer(serializers.ModelSerializer):
-    buyer = serializers.CharField(source='buyer_id.name', read_only=True)
-    seller = serializers.CharField(source='seller_id.name', read_only=True)
-    animal = serializers.CharField(source='animal_id.name', read_only=True)
+    buyer = serializers.CharField(source='buyer_id.username', read_only=True)
+    seller = serializers.CharField(source='seller_id.username', read_only=True)
+    animal = serializers.CharField(source='animal_id.username', read_only=True)
     class Meta:
         model = Transaction
         fields = ('id', 'price', 'date_sell_start', 'date_buy', 'animal_id', 'buyer_id', 'seller_id', 'buyer', 'seller', 'animal')

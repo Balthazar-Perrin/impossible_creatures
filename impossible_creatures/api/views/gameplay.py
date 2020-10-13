@@ -12,13 +12,14 @@ from rest_framework.response import Response
 
 class Fusion(viewsets.ViewSet):
 	def create(self, request, *args, **kwargs):
+		print(request.data)
 		animalPar1 = Animal.objects.get(id=request.data['animal1_id'])
 		speciesParent1 = Species.objects.get(id=AnimalSerializer(animalPar1).data.get('species_id'))
 
 		animalPar2 = Animal.objects.get(id=request.data['animal2_id'])
 		speciesParent2 = Species.objects.get(id=AnimalSerializer(animalPar2).data.get('species_id'))
 
-		owner = User.objects.get(id="1")
+		owner = User.objects.get(id="10")
 		try:
 			newSpecies = Species.objects.get(parent1_id=AnimalSerializer(animalPar1).data.get('species_id'), parent2_id=AnimalSerializer(animalPar2).data.get('species_id'))
 			
@@ -105,3 +106,22 @@ class GetPercents(viewsets.ViewSet):
         percents = dict((i, str(baseparents.count(i)*100/len(baseparents))+"%") for i in baseparents)
 
         return HttpResponse(json.dumps(percents))
+		
+class Sell(viewsets.ViewSet):
+    def create(self, request, *args, **kwargs):
+        print(request)
+        try :
+            print('oui')
+            animal = Animal.objects.get(id=request.data['animal_id'], owner_id=request.data['user_id'])
+            print('anmal')
+
+            newDict = {}
+            newDict['price'] = request.data['price']
+            newDict['animal_id'] = request.data['animal_id']
+            newDict['seller_id'] = request.data['user_id']
+            ser = TransactionSerializer(data=newDict)
+            if ser.is_valid():
+                    ser.save()
+            return Response("Success", status=status.HTTP_201_CREATED)
+        except ObjectDoesNotExist:
+            return Response("You do not own this animal", status=status.HTTP_400_BAD_REQUEST)

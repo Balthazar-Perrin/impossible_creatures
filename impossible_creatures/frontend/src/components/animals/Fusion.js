@@ -1,43 +1,66 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addAnimal } from '../../actions/animals';
+import { fuseAnimals } from '../../actions/animals';
 
-export class Form extends Component {
+
+export class Fusion extends Component {
   state = {
+    animal1_id: '',
+    animal2_id: '',
     name: '',
-    creator_id: '',
-    owner_id: '',
-    species_id: '',
+    nameAnimal: '',
   };
 
   static propTypes = {
-    addAnimal: PropTypes.func.isRequired,
+    fuseAnimals: PropTypes.func.isRequired,
   };
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { name, creator_id, owner_id, species_id } = this.state;
-    const animal = { name, creator_id, owner_id, species_id };
-    this.props.addAnimal(animal);
+    const { animal1_id, animal2_id, name, nameAnimal } = this.state;
+    const query = { animal1_id, animal2_id, name, nameAnimal };
+    console.log(this.state)
+    this.props.fuseAnimals(this.state);
+    
     this.setState({
+      animal1_id: '',
+      animal2_id: '',
       name: '',
-      creator_id: '',
-      owner_id: '',
-      species_id: '',
+      nameAnimal: '',
     });
   };
 
   render() {
-    const { name, creator_id, owner_id, species_id } = this.state;
+    const { animal1_id, animal2_id, name, nameAnimal } = this.state;
     return (
       <div className="card card-body mt-4 mb-4">
-        <h2>Add Lead</h2>
+        <h2>Fuse Animals</h2>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
-            <label>Name</label>
+            <label>Animal1</label>
+            <input
+              className="form-control"
+              type="text"
+              name="animal1_id"
+              onChange={this.onChange}
+              value={animal1_id}
+            />
+          </div>
+          <div className="form-group">
+            <label>Animal2</label>
+            <input
+              className="form-control"
+              type="text"
+              name="animal2_id"
+              onChange={this.onChange}
+              value={animal2_id}
+            />
+          </div>
+          <div className="form-group">
+            <label>Name Species</label>
             <input
               className="form-control"
               type="text"
@@ -47,33 +70,13 @@ export class Form extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Creator</label>
-            <input
-              className="form-control"
-              type="text"
-              name="creator_id"
-              onChange={this.onChange}
-              value={creator_id}
-            />
-          </div>
-          <div className="form-group">
-            <label>Owner</label>
-            <input
-              className="form-control"
-              type="text"
-              name="owner_id"
-              onChange={this.onChange}
-              value={owner_id}
-            />
-          </div>
-          <div className="form-group">
-            <label>Species</label>
+            <label>Name Animal</label>
             <textarea
               className="form-control"
               type="text"
-              name="species_id"
+              name="nameAnimal"
               onChange={this.onChange}
-              value={species_id}
+              value={nameAnimal}
             />
           </div>
           <div className="form-group">
@@ -87,4 +90,8 @@ export class Form extends Component {
   }
 }
 
-export default connect(null, { addAnimal })(Form);
+const mapStateToProps = (state) => ({
+  animals: state.animalsReducer.animals,
+});
+
+export default connect(mapStateToProps, { fuseAnimals })(Fusion);

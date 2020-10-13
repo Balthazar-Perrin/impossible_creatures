@@ -11,9 +11,10 @@ export class Animals extends Component {
   };
 
   componentDidMount() {
-    this.props.getAnimals();
+    this.props.getAnimals(this.props.auth.user.id);
   }
   render() {
+    
     return (
       <Fragment>
         <h2>Animals</h2>
@@ -53,6 +54,7 @@ export class Animals extends Component {
 
 const mapStateToProps = (state) => ({
   animals: state.animalsReducer.animals,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { getAnimals, deleteAnimal })(Animals);

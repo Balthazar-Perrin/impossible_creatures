@@ -1,11 +1,12 @@
-import axios from "axios";
-import { createMessage, returnErrors } from './messages'
+import axios from 'axios';
+import { createMessage, returnErrors } from './messages';
+import { tokenConfig } from './auth';
 
-import { GET_ANIMALS, DELETE_ANIMAL, ADD_ANIMAL } from "./types";
+import { GET_ANIMALS, DELETE_ANIMAL, ADD_ANIMAL, GET_TRANSACTIONS, FUSE_ANIMALS } from './types';
 
-export const getAnimals = () => (dispatch) => {
+export const getAnimals = (id) => (dispatch, getState) => {
   axios
-    .get(`/api/animal/`)
+    .get(`/api/inventory/${id}`, tokenConfig(getState))
     .then((res) => {
       dispatch({
         type: GET_ANIMALS,
@@ -15,11 +16,11 @@ export const getAnimals = () => (dispatch) => {
     .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
 };
 
-export const deleteAnimal = (id) => (dispatch) => {
+export const deleteAnimal = (id) => (dispatch, getState) => {
   axios
-    .delete(`/api/animal/${id}/`)
+    .delete(`/api/animal/${id}/`, tokenConfig(getState))
     .then((res) => {
-      dispatch(createMessage({ deleteAnimal: 'Animal deleted'}))
+      dispatch(createMessage({ deleteLead: 'Lead Deleted' }));
       dispatch({
         type: DELETE_ANIMAL,
         payload: id,
@@ -28,13 +29,38 @@ export const deleteAnimal = (id) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const addAnimal = (animal) => (dispatch) => {
+export const addAnimal = (animal) => (dispatch, getState) => {
   axios
-    .post('/api/animal/', animal)
+    .post('/api/animal/', animal, tokenConfig(getState))
     .then((res) => {
-      dispatch(createMessage({ addAnimal: 'Animal Added'}))
+      dispatch(createMessage({ addLead: 'Lead Added' }));
       dispatch({
         type: ADD_ANIMAL,
+        payload: res.data,
+      });
+    })
+    .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+export const fuseAnimals = (state) => (dispatch, getState) => {
+  axios
+    .post('/api/fusion/', state, tokenConfig(getState))
+    .then((res) => {
+      dispatch(createMessage({ addLead: 'Animals Fused' }));
+      dispatch({
+        type: FUSE_ANIMALS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => dispatch(returnErrors(err.response.data, err.response.status)));
+};
+
+export const getTransactions = () => (dispatch, getState) => {
+  axios
+    .get(`/api/transaction/`, tokenConfig(getState))
+    .then((res) => {
+      dispatch({
+        type: GET_TRANSACTIONS,
         payload: res.data,
       });
     })

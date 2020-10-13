@@ -17,10 +17,13 @@ router.register(r'fusion', gameplay.Fusion, basename='fusion')
 router.register(r'login', CRUD.Login, basename='login')
 router.register(r'parents', gameplay.GetParents, basename='getparents')
 router.register(r'percents', gameplay.GetPercents, basename='percents')
+router.register(r'sell', gameplay.Sell, basename='sell')
 
 urlpatterns = [
     path('', include(router.urls)),
     path('auth', include('knox.urls')),
     path('auth/register', authentification.RegisterAPI.as_view()),
-    path('auth/login', authentification.LoginAPI.as_view())
+    path('auth/login', authentification.LoginAPI.as_view()),
+    path('auth/user', authentification.UserAPI.as_view()),
+    path('api/auth/logout', knox_views.LogoutView.as_view(), name='knox_logout')
 ]
