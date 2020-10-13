@@ -1,18 +1,38 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
+import { Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic'
 
 import Header from "./layout/Header";
-import Dashboard from "./animals/Dashboard";
+import Animals from "./animals/Animals";
+import Fusion from "./animals/Fusion"
+import Alerts from "./layout/Alerts";
+
+import { Provider } from "react-redux";
+import store from "../store";
+
+//Alert options 
+const alertOptions = {
+  timeout: 3000,
+  position: 'top center'
+}
 
 class App extends Component {
   render() {
     return (
-      <Fragment>
-        <Header />
-        <div className="container">
-          <Dashboard />
-        </div>
-      </Fragment>
+      <Provider store={store}>
+        <AlertProvider template={AlertTemplate}
+        {...alertOptions}>
+          <Fragment>
+            <Header />
+             <Alerts />
+            <div className="container">
+              <Fusion />
+              <Animals />
+            </div>
+          </Fragment>
+        </AlertProvider>
+      </Provider>
     );
   }
 }

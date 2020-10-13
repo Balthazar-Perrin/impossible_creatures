@@ -1,14 +1,35 @@
 from django.db import models
 from encrypted_model_fields.fields import EncryptedCharField
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, UserManager
 
-class User(models.Model):
-    name = models.CharField(max_length=30, null=False, default=None, unique=True)
-    password = EncryptedCharField(max_length=100, null=False, default=None)
+class MyMgr(BaseUserManager):
+    def create_user(self, username='', password=None):
+        """
+        Creates and saves a User with the given email, date of
+        birth and password.
+        """
+        user = self.model(
+            username=username,
+        )
+
+        user.save(using=self._db)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+
+class User(AbstractBaseUser):
+    username = models.CharField(max_length=30, null=False, default=None, unique=True)
     money = models.IntegerField(null=False, default=0)
     points = models.IntegerField(null=False, default=0)
     is_admin = models.BooleanField(null=False, default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
+    
+    objects = MyMgr()
+    
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = []
 
 class Species(models.Model):
     name = models.CharField(max_length=40, null=False, unique=True, default=None)
